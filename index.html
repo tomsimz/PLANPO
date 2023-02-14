@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image" href="img/83.png" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <title>Plan Delevery</title>
+
+    <style>
+        button {
+            background-color: #356ce4;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 12px;
+        }
+
+        .a1 {
+            min-width: 40px;
+            max-width: 400px;
+            padding: 20px;
+            margin: auto;
+            margin-top: 50px;
+        }
+        input{
+            margin: 10px 0;
+            
+        }
+
+    </style>
+
+</head>
+
+<body class="text-center">
+    <main class="form-signin">
+        <form name="frmlogin" method="post" action="./login/check_login.php">
+            <div style="margin-top: 35px;"></div>
+            <img class="mb-4" src="img/delivery.png" alt="Null" height="250">
+            <h1 class='elegantshadow'>Plan Delevery</h1>
+            <div class="a1">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="user" required name="user" placeholder="user">
+                    <label for="floatingInput">Username</label>
+                </div>
+         
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="pass" required name="pass" placeholder="pass">
+                    <label for="floatingInput">Password</label>
+                </div>
+            </div>
+            <a href="./login/changpass.php">change password</a><br/>
+            <div style="margin-top: 10px;">
+                <button type="submit">เข้าสู่ระบบ</button>
+            </div>
+            
+        </form>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+        </script>
+</body>
+
+</html>
