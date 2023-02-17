@@ -171,7 +171,17 @@ $i = 1;
                                         echo $part["part_no"] ?></td>
                                 <td><?php echo $part["description"] ?></td>
                                 <td><?php echo number_format($row["order_qty"]) ?></td>
-                                <td><?php echo number_format($row["remain_qty"]) ?></td>
+                                <td><?php 
+                                $a = 0;
+                                $sql = "SELECT qty_plan FROM update_po WHERE id_report = '" . $row["id_report"] . "'";
+                                $re = mysqli_query($con, $sql);                                
+                                if (mysqli_num_rows($re) > 0) {
+                                    while ($idremain = mysqli_fetch_array($re)) {
+                                        $a += $idremain["qty_plan"];
+                                    }
+                                }  
+                                $b = $row["order_qty"]-$a;                              
+                                echo number_format($b) ?></td>
                                 <td><?php echo number_format($row["output_qty"]) ?></td>
                                 <td><?php 
                                 $sql = "SELECT name_active FROM active WHERE id_active = '" . $row["active"] . "'";

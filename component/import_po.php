@@ -299,6 +299,26 @@ require_once("../db/connection.php");
                         <td><input type="date" name="issue" class="form-control"></td>
                         <td><input type="date" name="due" class="form-control"></td>
                         <td>
+                            <!-- <select name="partno[]" class="chosen" data-placeholder="Choose tags ..." multiple style="width: 350px;">
+                                <option value=""></option>
+                                <?php
+
+                                $sql = "SELECT * FROM part_item ";
+                                $re = mysqli_query($con, $sql);
+                                $cus = mysqli_fetch_array($re);
+
+                                while ($cus = mysqli_fetch_array($re)) {
+                                    if ($cus["status"] == "0") {
+                                ?>
+                                        <option value="<?php echo $cus["id_part"] ?>"><?php echo $cus["part_no"]; ?></option>
+                                <?php
+                                    } else {
+                                        echo "Not Status";
+                                    }
+                                }
+
+                                ?>
+                            </select> -->
                             <input type="text" class="form-control" name="partno[]">
                         </td>
                         <td><input type="number" name="qty[]" class="form-control"></td>

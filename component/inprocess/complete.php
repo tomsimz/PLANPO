@@ -23,34 +23,18 @@ if (isset($conf)) {
         if (trim($conf[$i]) != "") {
             //echo "chkColor $i = ".$conf[$i]."<br>";
 
-            $sql = "SELECT id_report,qty_plan FROM update_po WHERE id_update = '" . $conf[$i] . "'";
+            $sql = "SELECT id_report FROM update_po WHERE id_update = '" . $conf[$i] . "'";
             $re = mysqli_query($con, $sql);
             $confirm = mysqli_fetch_array($re);
 
-            print_r($confirm["id_report"]);
-            print_r($confirm["qty_plan"]);
 
+            $sql = "UPDATE update_po set active = 0,date_complete='" . $timeTOday . "' where id_update = '" . $conf[$i] . "'";
+            $result = mysqli_query($con, $sql) or die("Error in query: $sql ");
 
+            $sql = "UPDATE report_po set active = 0 where id_report = '" . $confirm["id_report"] . "'";
+            $result = mysqli_query($con, $sql) or die("Error in query: $sql ");
 
-
-
-
-
-            // $sql = "UPDATE update_po set active = 0,date_complete='" . $timeTOday . "' where id_update = '" . $conf[$i] . "'";
-            // $result = mysqli_query($con, $sql) or die("Error in query: $sql ");
-            if ($result) {
-
-                // $sql = "SELECT id_report,remain_qty,active FROM report_po where id_report = '" . $confirm["id_report"] . "'";
-                // $r = mysqli_query($con, $sql);
-                // $row = mysqli_fetch_array($r, MYSQLI_ASSOC);
-
-                // $conf = $row["remain_qty"] - $confirm["qty_plan"];
-
-                // if ($i < count($_POST["confirm"])) {
-                //     $sql = "UPDATE report_po set active = 0,remain_qty='" . $conf . "' where id_report = '" . $row["id_report"] . "'";
-                //     $result = mysqli_query($con, $sql) or die("Error in query: $sql ");
-                    
-                // }
+            if ($result) {               
                 if ($con->query($sql) === TRUE) {
                     echo '<script>
                     setTimeout(function() {
