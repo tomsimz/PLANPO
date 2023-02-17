@@ -149,46 +149,63 @@ $i = 1;
                             <tr>
                                 <td><?php echo $i ?></td>
                                 <td><?php
-                                        $sql = "SELECT * FROM customer WHERE id_cus = '" . $row["id_cus"] . "'";
-                                        $re = mysqli_query($con, $sql);
-                                        $cus = mysqli_fetch_array($re);
-                                        echo $cus["code"] ?></td>
+                                    $sql = "SELECT * FROM customer WHERE id_cus = '" . $row["id_cus"] . "'";
+                                    $re = mysqli_query($con, $sql);
+                                    $cus = mysqli_fetch_array($re);
+                                    echo $cus["code"] ?></td>
                                 <td><?php echo $row["po"] ?></td>
                                 <td><?php
-                                        $datetimeS = new DateTime($row["issue_date"]);
-                                        $issue = $datetimeS->format('d/m/Y');
+                                    $datetimeS = new DateTime($row["issue_date"]);
+                                    $issue = $datetimeS->format('d/m/Y');
 
-                                        echo $issue; ?></td>
+                                    echo $issue; ?></td>
                                 <td><?php
-                                        $datetimeS = new DateTime($row["due_date"]);
-                                        $due = $datetimeS->format('d/m/Y');
+                                    $datetimeS = new DateTime($row["due_date"]);
+                                    $due = $datetimeS->format('d/m/Y');
 
-                                        echo $due; ?></td>
+                                    echo $due; ?></td>
                                 <td><?php
-                                        $sql = "SELECT part_no,description FROM part_item WHERE id_part = '" . $row["id_part"] . "'";
+                                    if ($row["id_part"] == "0") {
+                                        echo "";
+                                    } else {
+                                        $sql = "SELECT part_no FROM part_item WHERE id_part = '" . $row["id_part"] . "'";
                                         $re = mysqli_query($con, $sql);
                                         $part = mysqli_fetch_array($re);
-                                        echo $part["part_no"] ?></td>
-                                <td><?php echo $part["description"] ?></td>
-                                <td><?php echo number_format($row["order_qty"]) ?></td>
-                                <td><?php 
-                                $a = 0;
-                                $sql = "SELECT qty_plan FROM update_po WHERE id_report = '" . $row["id_report"] . "'";
-                                $re = mysqli_query($con, $sql);                                
-                                if (mysqli_num_rows($re) > 0) {
-                                    while ($idremain = mysqli_fetch_array($re)) {
-                                        $a += $idremain["qty_plan"];
+
+
+                                        echo $part["part_no"];
                                     }
-                                }  
-                                $b = $row["order_qty"]-$a;                              
-                                echo number_format($b) ?></td>
-                                <td><?php echo number_format($row["output_qty"]) ?></td>
+                                    ?></td>
                                 <td><?php 
-                                $sql = "SELECT name_active FROM active WHERE id_active = '" . $row["active"] . "'";
-                                $re = mysqli_query($con, $sql);
-                                $active = mysqli_fetch_array($re);
-                                echo $active["name_active"];                                 
-                                ?></td>
+                                if ($row["id_part"] == "0") {
+                                    echo "";
+                                } else {
+                                    $sql = "SELECT description FROM part_item WHERE id_part = '" . $row["id_part"] . "'";
+                                    $re = mysqli_query($con, $sql);
+                                    $part = mysqli_fetch_array($re);
+                                    echo $part["description"];
+                                }
+                                
+                                 ?></td>
+                                <td><?php echo number_format($row["order_qty"]) ?></td>
+                                <td><?php
+                                    $a = 0;
+                                    $sql = "SELECT qty_plan FROM update_po WHERE id_report = '" . $row["id_report"] . "'";
+                                    $re = mysqli_query($con, $sql);
+                                    if (mysqli_num_rows($re) > 0) {
+                                        while ($idremain = mysqli_fetch_array($re)) {
+                                            $a += $idremain["qty_plan"];
+                                        }
+                                    }
+                                    $b = $row["order_qty"] - $a;
+                                    echo number_format($b) ?></td>
+                                <td><?php echo number_format($row["output_qty"]) ?></td>
+                                <td><?php
+                                    $sql = "SELECT name_active FROM active WHERE id_active = '" . $row["active"] . "'";
+                                    $re = mysqli_query($con, $sql);
+                                    $active = mysqli_fetch_array($re);
+                                    echo $active["name_active"];
+                                    ?></td>
                                 <td></td>
 
                             </tr>

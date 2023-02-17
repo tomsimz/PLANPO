@@ -44,8 +44,8 @@ if ($po != null) {
             $sql = "SELECT id_part FROM part_item where part_no = '" . $partno[$i] . "'";
             $re = mysqli_query($con, $sql);
             $part = mysqli_fetch_array($re, MYSQLI_ASSOC);
-            $partn = $part["id_part"];
-
+            @$partn = $part["id_part"];           
+                
             $sql = "INSERT INTO report_po (id_report, id_cus, po,id_part, issue_date, due_date, import_date, order_qty,remain_qty, output_qty,active, status )
                                     value($strid,$cus,'$po','$partn','$issue','$due','$timeTOday','$qty[$i]','$qty[$i]','0','2','0')";
             if ($con->query($sql) === TRUE) {
@@ -65,5 +65,6 @@ if ($po != null) {
         }
         $i++;
     }
+    
 }
 $con->close();
