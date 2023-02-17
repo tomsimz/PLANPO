@@ -72,7 +72,7 @@ if (isset($i)) {
                     title: "Upload PO Success",  
                     type: "success"
                     }, function() {
-                    window.location = "./Job_planning.php"; 
+                    window.location = "./job_planning.php"; 
                     });
                     }, 500);
                     </script>';
