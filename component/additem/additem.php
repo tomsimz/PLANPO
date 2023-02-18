@@ -5,12 +5,8 @@ if (!isset($_SESSION['UserID'])) {
     Header("Location: ../index.html");
     exit();
 }
+require_once("../../db/connection.php");
 
-require_once("../db/connection.php");
-//*** Get User Login
-// $sql = "SELECT * FROM employee WHERE id_emp = '" . $_SESSION['rowid'] . "' ";
-// $result = mysqli_query($con, $sql);
-// $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +14,7 @@ require_once("../db/connection.php");
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Import PO</title>
+    <title>Add Item</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -106,7 +102,7 @@ require_once("../db/connection.php");
 
         .container1 {
             margin: 10px auto;
-            width: 80%;
+            width: 50%;
             background-color: #fff;
             padding: 5px;
 
@@ -218,12 +214,8 @@ require_once("../db/connection.php");
                 $(this).attr("enable", "disabled");
                 var index = $("table tbody tr:last-child").index();
                 var row = '<tr>' +
-                    '<td style="background-color: #e2e2e2;"></td>' +
-                    '<td style="background-color: #e2e2e2;"></td>' +
-                    '<td style="background-color: #e2e2e2;"></td>' +
-                    '<td style="background-color: #e2e2e2;"></td>' +
-                    '<td><input type="text" class="form-control" name="partno[]" ></td>' +
-                    '<td><input type="text" class="form-control" name="qty[]" ></td>' +
+                    '<td><input type="text" class="form-control" name="item[]" ></td>' +
+                    '<td><input type="text" class="form-control" name="dep[]" ></td>' +
 
                     '</tr>';
                 $("table").append(row);
@@ -236,45 +228,26 @@ require_once("../db/connection.php");
 
 <body>
     <header>
-        <img class="logo" src="../img/delivery.png" alt="logo">
+        <img class="logo" src="../../img/delivery.png" alt="logo">
         <nav>
             <ul class="nav_links">
-                <li><a href="./home.php">Report</a></li>
-                <li><a href="./additem/additem.php">Add Item</a></li>
-                <li><a href="./updateplan/job_planning.php">Plan PO</a></li>
-                <li><a href="../component/inprocess/confirm_po.php">Confirm PO</a></li>
+                <li><a href="../home.php">Report</a></li>
+                <li><a href="../import_po.php">Import PO</a></li>
+                <li><a href="../updateplan/job_planning.php">Plan PO</a></li>
+                <li><a href="../inprocess/confirm_po.php">Confirm PO</a></li>
             </ul>
         </nav>
         <a class="cta" href="../login/logout.php"><button>Logout</button></a>
     </header>
     <div class="container1">
-        <form method="post" action="./update_po.php">
+        <form method="post" action="./additemupdate.php">
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>Import <b>PO</b></h2>
+                        <h2>Add <b>Item</b></h2>
                     </div>
                     <div class="col-sm-4">
-                        <select name="test" class="chosen" data-placeholder="Choose tags ..." style="width: 350px;">
-                            <option value=""></option>
-                            <?php
 
-                            $sql = "SELECT * FROM part_item ";
-                            $re = mysqli_query($con, $sql);
-                            $cus = mysqli_fetch_array($re);
-
-                            while ($cus = mysqli_fetch_array($re)) {
-                                if ($cus["status"] == "0") {
-                            ?>
-                                    <option value="<?php echo $cus["id_part"] ?>"><?php echo $cus["part_no"]; ?></option>
-                            <?php
-                                } else {
-                                    echo "Not Status";
-                                }
-                            }
-
-                            ?>
-                        </select>
                     </div>
                     <div class="col-sm-2">
                         <button type="submit" class="btn btn-success " style="margin-right:10px;float:right;width:100px"> Comfirm</button>
@@ -284,66 +257,14 @@ require_once("../db/connection.php");
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th style="width: 10%;">PO_Number</th>
-                        <th style="width: 20%;">Customer</th>
-                        <th style="width: 10%;">Issue_Date</th>
-                        <th style="width: 10%;">Due_Date</th>
                         <th style="width: 20%;">Part_no</th>
-                        <th style="width: 10%;">Qty</th>
-
+                        <th style="width: 10%;">Decription</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><input type="text" name="po" class="form-control" required></td>
-                        <td><select name="cus" class="chosen" data-placeholder="Choose tags ..." style="width: 350px;">
-                                <option value=""></option>
-                                <?php
-
-                                $sql = "SELECT * FROM customer ";
-                                $re = mysqli_query($con, $sql);
-                                $cus = mysqli_fetch_array($re);
-
-                                while ($cus = mysqli_fetch_array($re)) {
-                                    if ($cus["status_cus"] == "0") {
-                                ?>
-                                        <option value="<?php echo $cus["id_cus"] ?>"><?php echo $cus["code"] . ": " . $cus["name_cus"]; ?></option>
-                                <?php
-                                    } else {
-                                        echo "Not Status";
-                                    }
-                                }
-
-                                ?>
-                            </select>
-                        </td>
-                        <td><input type="date" name="issue" class="form-control"></td>
-                        <td><input type="date" name="due" class="form-control"></td>
-                        <td>
-                            <!-- <select name="partno[]" class="chosen" data-placeholder="Choose tags ..." multiple style="width: 350px;">
-                                <option value=""></option>
-                                <?php
-
-                                $sql = "SELECT * FROM part_item ";
-                                $re = mysqli_query($con, $sql);
-                                $cus = mysqli_fetch_array($re);
-
-                                while ($cus = mysqli_fetch_array($re)) {
-                                    if ($cus["status"] == "0") {
-                                ?>
-                                        <option value="<?php echo $cus["id_part"] ?>"><?php echo $cus["part_no"]; ?></option>
-                                <?php
-                                    } else {
-                                        echo "Not Status";
-                                    }
-                                }
-
-                                ?>
-                            </select> -->
-                            <input type="text" class="form-control" name="partno[]">
-                        </td>
-                        <td><input type="number" name="qty[]" class="form-control"></td>
-
+                        <td><input type="text" class="form-control" name="item[]"></td>
+                        <td><input type="text" name="dep[]" class="form-control"></td>
                     </tr>
                 </tbody>
             </table>

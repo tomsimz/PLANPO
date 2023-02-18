@@ -125,7 +125,7 @@ $i = 1;
     <div class="container1">
         <div class="content">
             <form method="POST" action="./complete.php">
-            <button type="submit">Confirm</button>
+                <button type="submit">Confirm</button>
                 <table id="report" class="table table-bordered table-hover">
                     <thead class="table-success">
                         <tr>
@@ -140,57 +140,57 @@ $i = 1;
                             <th>Output_Qty</th>
                             <th>Due_Plan</th>
                             <th></th>
-            </form>
-            </th>
-            </tr>
-            </thead>
-            <tbody>
-                <?php
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_array($result)) {
-                ?>
-                        <tr>
-                            <td><?php echo $i ?></td>
-                            <td><?php
-                                $sql = "SELECT * FROM customer WHERE id_cus = '" . $row["id_cus"] . "'";
-                                $re = mysqli_query($con, $sql);
-                                $cus = mysqli_fetch_array($re);
-                                echo $cus["code"] ?>
-                            </td>
-                            <td><?php echo $row["po"] ?></td>
-                            <td><?php
-                                $datetimeS = new DateTime($row["due_date"]);
-                                $due = $datetimeS->format('d/m/Y');
 
-                                echo $due; ?></td>
-                            <td><?php $sql = "SELECT part_no,description FROM part_item WHERE id_part = '" . $row["id_part"] . "'";
-                                $re = mysqli_query($con, $sql);
-                                $part = mysqli_fetch_array($re);
-                                echo $part["part_no"] ?></td>
-                            <td><?php echo $part["description"] ?></td>
-                            <td><?php echo number_format($row["order_qty"]) ?></td>
-                            <td><?php
-                                echo number_format($row["remain_qty"]) ?></td>
-                            <td><?php
-                                echo number_format($row["qty_plan"]);
-                                ?>
-                            </td>
-                            <td> <?php $datetime = new DateTime($row["date_plan"]);
-                                $datep = $datetime->format('d/m/Y');
-
-                                echo $datep; ?></td>
-                            <td>
-
-                                <input type="checkbox" name="confirm[]" value="<?php echo $row["id_update"] ?>">
-                            </td>
+                            </th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_array($result)) {
+                        ?>
+                                <tr>
+                                    <td><?php echo $i ?></td>
+                                    <td><?php
+                                        $sql = "SELECT * FROM customer WHERE id_cus = '" . $row["id_cus"] . "'";
+                                        $re = mysqli_query($con, $sql);
+                                        $cus = mysqli_fetch_array($re);
+                                        echo $cus["code"] ?>
+                                    </td>
+                                    <td><?php echo $row["po"] ?></td>
+                                    <td><?php
+                                        $datetimeS = new DateTime($row["due_date"]);
+                                        $due = $datetimeS->format('d/m/Y');
 
-                <?php $i++;
-                    }
-                } ?>
+                                        echo $due; ?></td>
+                                    <td><?php $sql = "SELECT part_no,description FROM part_item WHERE id_part = '" . $row["id_part"] . "'";
+                                        $re = mysqli_query($con, $sql);
+                                        $part = mysqli_fetch_array($re);
+                                        echo $part["part_no"] ?></td>
+                                    <td><?php echo $part["description"] ?></td>
+                                    <td><?php echo number_format($row["order_qty"]) ?></td>
+                                    <td><?php
+                                        echo number_format($row["remain_qty"]) ?></td>
+                                    <td><?php
+                                        echo number_format($row["qty_plan"]);
+                                        ?>
+                                    </td>
+                                    <td> <?php $datetime = new DateTime($row["date_plan"]);
+                                            $datep = $datetime->format('d/m/Y');
 
-            </tbody>
-            </table>
+                                            echo $datep; ?></td>
+                                    <td>
+
+                                        <input type="checkbox" name="confirm[]" value="<?php echo $row["id_update"] ?>">
+                                    </td>
+                                </tr>
+
+                        <?php $i++;
+                            }
+                        } ?>
+
+                    </tbody>
+                </table>
             </form>
         </div>
 
