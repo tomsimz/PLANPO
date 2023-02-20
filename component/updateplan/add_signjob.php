@@ -24,74 +24,133 @@ $a = 0;
 // print_r($id_update);
 // print_r($qty_update);
 // print_r($plandue);
-
-if (isset($i)) {
-    date_default_timezone_set('UTC');
+date_default_timezone_set('UTC');
     $timezone = 7;
     $timeTOday = gmdate("Y-m-d H:i:sa", time() + 3600 * ($timezone + date("I")));
 
-    while ($r < $i) {
-        if ($qty_update[$r] == "" || $plandue[$r] == "") {
-           return 0;
-        } else {
-
-            // print_r($id_update[$r]);
-            // print_r($qty_update[$r]);
-            // print_r($plandue[$r]);
-            // print_r("<br/>");
-
-            $sql = "SELECT id_update FROM update_po ORDER BY id_update DESC LIMIT 0,1";
-            $re = mysqli_query($con, $sql);
-            $idup = mysqli_fetch_array($re, MYSQLI_ASSOC);
-            if (@$idup["id_update"] == "") {
-                $idup["id_update"] = "2000000";
+while ($r < $i) {
+            if ($qty_update[$r] == "" || $plandue[$r] == "" || $id_update[$r] == "") {
+                $a++;
+            } else {
+                $sql = "SELECT id_update FROM update_po ORDER BY id_update DESC LIMIT 0,1";
+                $re = mysqli_query($con, $sql);
+                $idup = mysqli_fetch_array($re, MYSQLI_ASSOC);
+                if (@$idup["id_update"] == "") {
+                    $idup["id_update"] = "2000000";
+                }
+                $strid[$r] = $idup["id_update"] + 1;
+    
+                $sql = "SELECT remain_qty,output_qty FROM report_po where id_report = '" . $id_update[$r] . "'";
+                $result = mysqli_query($con, $sql);
+                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    
+                //$re = $row["remain_qty"] - $qty_update[$r];
+                $out = $qty_update[$r] + $row["output_qty"];
+    
+                $sql = "INSERT INTO update_po (id_update,id_report,id_user,date_update,date_plan,qty_plan,active, status )
+                value($strid[$r],$id_update[$r],'".$_SESSION['UserID']."','$timeTOday','$plandue[$r]','$qty_update[$r]','2','0')";
+                
+                if ($con->query($sql) === TRUE) {
+                    
+                   
+    
+                    $sql = "UPDATE report_po set active = 3,output_qty='" . $out . "' where id_report = '" . $id_update[$r] . "'";
+                    $result = mysqli_query($con, $sql) or die("Error in query: $sql ");
+                    
+                    if ($result) {
+                        echo '<script>
+                        setTimeout(function() {
+                        swal({
+                        title: "Upload PO Success",  
+                        type: "success"
+                        }, function() {
+                        window.location = "./job_planning.php"; 
+                        });
+                        }, 500);
+                        </script>';
+                    } else {
+                        echo "<script type='text/javascript'>";
+                        echo "alert('Error back to Update again');";
+                        echo "window.location = './job_planning.php'; ";
+                        echo "</script>";
+                    }
+                    
+                    
+                } else {
+                    echo "Error: " . $sql . "<br>" . $con->error;
+                }
             }
-            $strid[$r] = $idup["id_update"] + 1;
+            $r++;
+        }
 
-            $sql = "SELECT remain_qty,output_qty FROM report_po where id_report = '" . $id_update[$r] . "'";
-            $result = mysqli_query($con, $sql);
-            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+// if (isset($i)) {
+//     date_default_timezone_set('UTC');
+//     $timezone = 7;
+//     $timeTOday = gmdate("Y-m-d H:i:sa", time() + 3600 * ($timezone + date("I")));
 
-            //$re = $row["remain_qty"] - $qty_update[$r];
-            $out = $qty_update[$r] + $row["output_qty"];
+//     while ($r < $i) {
+//         if ($qty_update[$r] == "" || $plandue[$r] == "" || $id_update[$r] == "") {
+//            return 0;
+//         } else {
 
-            $sql = "INSERT INTO update_po (id_update,id_report,id_user,date_update,date_plan,qty_plan,active, status )
-            value($strid[$r],$id_update[$r],'".$_SESSION['UserID']."','$timeTOday','$plandue[$r]','$qty_update[$r]','2','0')";
+//             // print_r($id_update[$r]);
+//             // print_r($qty_update[$r]);
+//             // print_r($plandue[$r]);
+//             // print_r("<br/>");
+
+//             $sql = "SELECT id_update FROM update_po ORDER BY id_update DESC LIMIT 0,1";
+//             $re = mysqli_query($con, $sql);
+//             $idup = mysqli_fetch_array($re, MYSQLI_ASSOC);
+//             if (@$idup["id_update"] == "") {
+//                 $idup["id_update"] = "2000000";
+//             }
+//             $strid[$r] = $idup["id_update"] + 1;
+
+//             $sql = "SELECT remain_qty,output_qty FROM report_po where id_report = '" . $id_update[$r] . "'";
+//             $result = mysqli_query($con, $sql);
+//             $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+//             //$re = $row["remain_qty"] - $qty_update[$r];
+//             $out = $qty_update[$r] + $row["output_qty"];
+
+//             $sql = "INSERT INTO update_po (id_update,id_report,id_user,date_update,date_plan,qty_plan,active, status )
+//             value($strid[$r],$id_update[$r],'".$_SESSION['UserID']."','$timeTOday','$plandue[$r]','$qty_update[$r]','2','0')";
             
-            if ($con->query($sql) === TRUE) {
+//             if ($con->query($sql) === TRUE) {
                 
                
 
-                $sql = "UPDATE report_po set active = 3,output_qty='" . $out . "' where id_report = '" . $id_update[$r] . "'";
-                $result = mysqli_query($con, $sql) or die("Error in query: $sql ");
+//                 $sql = "UPDATE report_po set active = 3,output_qty='" . $out . "' where id_report = '" . $id_update[$r] . "'";
+//                 $result = mysqli_query($con, $sql) or die("Error in query: $sql ");
                 
-                if ($result) {
-                    echo '<script>
-                    setTimeout(function() {
-                    swal({
-                    title: "Upload PO Success",  
-                    type: "success"
-                    }, function() {
-                    window.location = "./job_planning.php"; 
-                    });
-                    }, 500);
-                    </script>';
-                } else {
-                    echo "<script type='text/javascript'>";
-                    echo "alert('Error back to Update again');";
-                    echo "window.location = './job_planning.php'; ";
-                    echo "</script>";
-                }
+//                 if ($result) {
+//                     echo '<script>
+//                     setTimeout(function() {
+//                     swal({
+//                     title: "Upload PO Success",  
+//                     type: "success"
+//                     }, function() {
+//                     window.location = "./job_planning.php"; 
+//                     });
+//                     }, 500);
+//                     </script>';
+//                 } else {
+//                     echo "<script type='text/javascript'>";
+//                     echo "alert('Error back to Update again');";
+//                     echo "window.location = './job_planning.php'; ";
+//                     echo "</script>";
+//                 }
                 
                 
-            } else {
-                echo "Error: " . $sql . "<br>" . $con->error;
-            }
+//             } else {
+//                 echo "Error: " . $sql . "<br>" . $con->error;
+//             }
           
-        }
+//         }
 
-        $r++;
-    }
+//         $r++;
+//     }
    
-}mysqli_close($con);
+//}
+mysqli_close($con);
 ?>
