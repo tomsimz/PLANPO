@@ -359,7 +359,7 @@ require_once("../db/connection.php");
 
 </body>
 <script type="text/javascript">
-    $(".chosen").chosen();
+     $(".chosen").chosen(); 
 </script>
 
 </html>

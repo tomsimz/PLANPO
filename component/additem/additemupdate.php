@@ -51,17 +51,7 @@ if (isset($i)) {
             }            
         }
         $r++;
-    }
-    echo '<script>
-    setTimeout(function() {
-    swal({
-    title: "No Data",  
-    type: "error"
-    }, function() {
-    window.location = "./additem.php"; 
-    });
-    }, 500);
-    </script>';
+    }    
 
 }mysqli_close($con);
 ?>
