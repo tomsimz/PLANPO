@@ -37,7 +37,7 @@ require_once("../../db/connection.php");
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #fff;
+            /* background-color: #fff; */
         }
 
         li,
@@ -263,12 +263,12 @@ require_once("../../db/connection.php");
                 </thead>
                 <tbody>
                     <tr>
-                        <td><input type="text" class="form-control" name="item[]"></td>
-                        <td><input type="text" name="dep[]" class="form-control"></td>
+                        <td><input type="text" class="form-control" name="item[]" required></td>
+                        <td><input type="text" name="dep[]" class="form-control" required></td>
                     </tr>
                 </tbody>
             </table>
-            <a href="./home.php" class="btn btn-warning " style="width:100px"> Back</button></a>
+            <!-- <a href="./home.php" class="btn btn-warning " style="width:100px"> Back</button></a> -->
             <button type="button" class="btn btn-info add-new" style="float:right;width:150px"><i class="fa fa-plus"></i> Add New</button>
 
 

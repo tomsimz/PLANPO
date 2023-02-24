@@ -27,11 +27,13 @@ require_once("../db/connection.php");
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+
 
     <!-- <link rel="stylesheet" href="./import_po.css"> -->
     <style>
@@ -41,7 +43,7 @@ require_once("../db/connection.php");
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #fff;
+            /* background-color: #fff; */
         }
 
         li,
@@ -296,7 +298,7 @@ require_once("../db/connection.php");
                 <tbody>
                     <tr>
                         <td><input type="text" name="po" class="form-control" required></td>
-                        <td><select name="cus" class="chosen" data-placeholder="Choose tags ..." style="width: 350px;">
+                        <td><select name="cus" class="chosen" data-placeholder="Choose tags ..." required style="width: 350px;">
                                 <option value=""></option>
                                 <?php
 
@@ -317,8 +319,8 @@ require_once("../db/connection.php");
                                 ?>
                             </select>
                         </td>
-                        <td><input type="date" name="issue" class="form-control"></td>
-                        <td><input type="date" name="due" class="form-control"></td>
+                        <td><input type="date" name="issue" class="form-control" required></td>
+                        <td><input type="date" name="due" class="form-control" required></td>
                         <td>
                             <!-- <select name="partno[]" class="chosen" data-placeholder="Choose tags ..." multiple style="width: 350px;">
                                 <option value=""></option>
@@ -340,9 +342,9 @@ require_once("../db/connection.php");
 
                                 ?>
                             </select> -->
-                            <input type="text" class="form-control" name="partno[]">
+                            <input type="text" class="form-control" name="partno[]" required>
                         </td>
-                        <td><input type="number" name="qty[]" class="form-control"></td>
+                        <td><input type="number" name="qty[]" class="form-control" required></td>
 
                     </tr>
                 </tbody>

@@ -145,8 +145,12 @@ $i = 1;
                     <?php
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_array($result)) {
+
                     ?>
+
                             <tr>
+
+
                                 <td><?php echo $i ?></td>
                                 <td><?php
                                     $sql = "SELECT * FROM customer WHERE id_cus = '" . $row["id_cus"] . "'";
@@ -176,17 +180,17 @@ $i = 1;
                                         echo $part["part_no"];
                                     }
                                     ?></td>
-                                <td><?php 
-                                if ($row["id_part"] == "0") {
-                                    echo "";
-                                } else {
-                                    $sql = "SELECT description FROM part_item WHERE id_part = '" . $row["id_part"] . "'";
-                                    $re = mysqli_query($con, $sql);
-                                    $part = mysqli_fetch_array($re);
-                                    echo $part["description"];
-                                }
-                                
-                                 ?></td>
+                                <td><?php
+                                    if ($row["id_part"] == "0") {
+                                        echo "";
+                                    } else {
+                                        $sql = "SELECT description FROM part_item WHERE id_part = '" . $row["id_part"] . "'";
+                                        $re = mysqli_query($con, $sql);
+                                        $part = mysqli_fetch_array($re);
+                                        echo $part["description"];
+                                    }
+
+                                    ?></td>
                                 <td><?php echo number_format($row["order_qty"]) ?></td>
                                 <td><?php
                                     $a = 0;
@@ -206,7 +210,22 @@ $i = 1;
                                     $active = mysqli_fetch_array($re);
                                     echo $active["name_active"];
                                     ?></td>
-                                <td></td>
+                                <td><?php
+                                    $sql = "SELECT date_complete FROM update_po WHERE id_report = '" . $row["id_report"] . "'";
+                                    $re = mysqli_query($con, $sql);
+                                    $date = mysqli_fetch_array($re);
+
+                                    if (@$date["date_complete"] == "") {
+                                        echo "";
+                                    } else {
+                                        @$datetimeS = new DateTime($date["date_complete"]);
+                                        $dat = $datetimeS->format('d/m/Y');
+
+                                        print_r($dat);
+                                    }
+
+
+                                    ?></td>
 
                             </tr>
                     <?php
