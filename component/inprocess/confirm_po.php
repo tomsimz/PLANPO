@@ -80,7 +80,7 @@ $i = 1;
             padding: 9px 25px;
             background-color: rgba(0, 136, 169, 1);
             border: none;
-            border-radius: 50px;
+            /* border-radius: 50px; */
             cursor: pointer;
             transition: all 0.3s ease 0s;
             color: #fff;
@@ -124,8 +124,12 @@ $i = 1;
     </header>
     <div class="container1">
         <div class="content">
+
             <form method="POST" action="./complete.php">
-                <button type="submit">Confirm</button>
+                <div style="flex:1;margin-top:30px">
+                <button style="width:140px;float:right;text-align:right;background-color:green;border-top-left-radius: 100px 50px;" type="submit">Confirm</button>
+                </div>        
+                <br/> <br/>       
                 <table id="report" class="table table-bordered table-hover">
                     <thead class="table-success">
                         <tr>
@@ -140,8 +144,6 @@ $i = 1;
                             <th>Output_Qty</th>
                             <th>Due_Plan</th>
                             <th></th>
-
-                            </th>
                         </tr>
                     </thead>
                     <tbody>

@@ -80,7 +80,7 @@ $i = 1;
             padding: 9px 25px;
             background-color: rgba(0, 136, 169, 1);
             border: none;
-            border-radius: 50px;
+            /* border-radius: 50px; */
             cursor: pointer;
             transition: all 0.3s ease 0s;
             color: #fff;
@@ -125,6 +125,11 @@ $i = 1;
     <div class="container1">
         <div class="content">
             <form method="POST" action="./add_signjob.php">
+            <div style="flex:1;margin-top:30px">
+                <button style="width:140px;float:right;text-align:right;background-color:green;border-top-left-radius: 100px 50px;" type="submit">Plan</button>
+                </div>        
+                <br/> <br/>  
+            
                 <table id="report" class="table table-bordered table-hover">
                     <thead class="table-success">
                         <tr>
@@ -138,61 +143,58 @@ $i = 1;
                             <th>Remain_Qty</th>
                             <th>Output_Qty</th>
                             <th>Due_Plan</th>
-                            <th><button type="submit">Plan</button>
-            </form>
-            </th>
-            </tr>
-            </thead>
-            <tbody>
-                <?php
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_array($result)) {
-                ?>
-                        <tr>
-                            <td><?php echo $i ?></td>
-                            <td><?php
-                                $sql = "SELECT * FROM customer WHERE id_cus = '" . $row["id_cus"] . "'";
-                                $re = mysqli_query($con, $sql);
-                                $cus = mysqli_fetch_array($re);
-                                echo $cus["code"] ?>
-                            </td>
-                            <td><?php echo $row["po"] ?></td>
-                            <td><?php
-                                $datetimeS = new DateTime($row["due_date"]);
-                                $due = $datetimeS->format('d/m/Y');
-
-                                echo $due; ?></td>
-                            <td><?php $sql = "SELECT part_no,description FROM part_item WHERE id_part = '" . $row["id_part"] . "'";
-                                $re = mysqli_query($con, $sql);
-                                $part = mysqli_fetch_array($re);
-                                echo $part["part_no"] ?></td>
-                            <td><?php echo $part["description"] ?></td>
-                            <td><?php echo number_format($row["order_qty"]) ?></td>
-                            <td><?php
-                                echo number_format($row["order_qty"]-$row["output_qty"]) ?></td>
-                            <td>
-                                    <input type="hidden" name="id[]" value="<?php echo $row["id_report"] ?>">
-                                    <input type="number" name="outqty[]" style="width: 100px;" placeholder="<?php echo $row["output_qty"] ?>">
-                            </td>
-                      
-                        </td>
-                        <td> <?php
-                            if ($row["remain_qty"] == "0") {
-                                
-                            } else {
-                                ?><input type="text" name="plandue[]" placeholder="DD-MM-YYYY" onfocus="(this.type = 'date')" onblur="(this.type='date')" style="width:150px"><?php
-                        }
-                        ?>
-                        </td>
-                        <td></td>
+                            
                         </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_array($result)) {
+                        ?>
+                                <tr>
+                                    <td><?php echo $i ?></td>
+                                    <td><?php
+                                        $sql = "SELECT * FROM customer WHERE id_cus = '" . $row["id_cus"] . "'";
+                                        $re = mysqli_query($con, $sql);
+                                        $cus = mysqli_fetch_array($re);
+                                        echo $cus["code"] ?>
+                                    </td>
+                                    <td><?php echo $row["po"] ?></td>
+                                    <td><?php
+                                        $datetimeS = new DateTime($row["due_date"]);
+                                        $due = $datetimeS->format('d/m/Y');
 
-                <?php $i++;
-                    }
-                } ?>
-                
-            </tbody>
-            </table>
+                                        echo $due; ?></td>
+                                    <td><?php $sql = "SELECT part_no,description FROM part_item WHERE id_part = '" . $row["id_part"] . "'";
+                                        $re = mysqli_query($con, $sql);
+                                        $part = mysqli_fetch_array($re);
+                                        echo $part["part_no"] ?></td>
+                                    <td><?php echo $part["description"] ?></td>
+                                    <td><?php echo number_format($row["order_qty"]) ?></td>
+                                    <td><?php
+                                        echo number_format($row["order_qty"] - $row["output_qty"]) ?></td>
+                                    <td>
+                                        <input type="hidden" name="id[]" value="<?php echo $row["id_report"] ?>">
+                                        <input type="number" name="outqty[]" style="width: 100px;" placeholder="<?php echo $row["output_qty"] ?>">
+                                    </td>
+
+                                    </td>
+                                    <td> <?php
+                                            if ($row["remain_qty"] == "0") {
+                                            } else {
+                                            ?><input type="text" name="plandue[]" placeholder="DD-MM-YYYY" onfocus="(this.type = 'date')" onblur="(this.type='date')" style="width:150px"><?php
+                                                                                                                                                                            }
+                                                                                                                                                                                ?>
+                                    </td>
+                                  
+                                </tr>
+
+                        <?php $i++;
+                            }
+                        } ?>
+
+                    </tbody>
+                </table>
             </form>
         </div>
 
